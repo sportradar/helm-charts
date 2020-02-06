@@ -18,6 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy script
+        uses: docker://alpine/helm:3.0.3
         continue-on-error: false
         run: ./scripts/sync_repo.sh
         shell: bash
