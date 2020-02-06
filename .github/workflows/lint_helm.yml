@@ -1,0 +1,16 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install helm
+      run: |
+        curl -o helm.tar.gz https://get.helm.sh/helm-v3.0.3-linux-amd64.tar.gz
+        tar zxvf helm.tar.gz
+        mv linux-x64/helm /usr/bin/helm
+    - name: Linting each chart
+      run: for i in $(ls -d charts/*/); do helm lint $i; done 
