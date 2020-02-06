@@ -19,5 +19,5 @@ jobs:
           sudo snap install --classic helm
       - name: Deploy script
         continue-on-error: false
-        run: ./scripts/sync_repo.sh
+        run: scripts/sync_repo.sh
 
