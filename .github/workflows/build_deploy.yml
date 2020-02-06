@@ -1,6 +1,10 @@
 name: Helm Chart Build and Deploy
 
-on: [push]
+on: 
+  push:
+    branches:
+      - master
+      - '*' #Testing purposes
 
 jobs:
   Build:
@@ -17,11 +21,9 @@ jobs:
         continue-on-error: false
         run: |
           pip install -U awscli
-          sudo snap install helm
+          sudo snap install --classic helm
       - name: Verify bucket index.yaml
         continue-on-error: false
-        env:
-          bucket: $S3BUCKET
         run: |
           if ! aws s3 cp "$bucket/index.yaml" "$index_dir/index.yaml"; then
             log_error "Exiting because unable to copy index locally. Not safe to proceed."
