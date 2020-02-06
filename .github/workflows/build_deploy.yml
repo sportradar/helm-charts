@@ -1,0 +1,28 @@
+name: Helm Chart Build and Deploy
+
+on: 
+  push:
+    branches:
+      - master
+      - '*' #Testing purpose
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: eu-central-1
+      S3_BUCKET: ${{ secrets.S3BUCKET }}
+      S3_BUCKET_URL: ${{ secrets.S3BUCKET_URL }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy script
+        continue-on-error: false
+        run: |
+          curl -o helm.tar.gz https://get.helm.sh/helm-v3.0.3-linux-amd64.tar.gz
+          tar zxvf helm.tar.gz
+          sudo cp linux-amd64/helm /usr/local/bin/helm3
+          ./scripts/sync_repo.sh
+        shell: bash
+

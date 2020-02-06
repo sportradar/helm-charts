@@ -1,0 +1,12 @@
+name: Helm Chart Lint
+
+on: [pull_request]
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Linting each chart
+      run: for i in $(ls -d charts/*/); do helm lint $i; done 
+  
