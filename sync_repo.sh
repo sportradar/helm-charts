@@ -2,7 +2,6 @@
 
 set -o errexit
 set -o nounset
-set -o pipefail
 
 main() {
   if ! sync_repo charts "$S3_BUCKET" "$S3_BUCKET_URL"; then
