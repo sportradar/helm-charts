@@ -11,6 +11,6 @@ jobs:
       run: |
         curl -o helm.tar.gz https://get.helm.sh/helm-v3.0.3-linux-amd64.tar.gz
         tar zxvf helm.tar.gz
-        mv linux-x64/helm /usr/bin/helm
+        mv linux-amd64/helm /usr/bin/helm
     - name: Linting each chart
       run: for i in $(ls -d charts/*/); do helm lint $i; done 
