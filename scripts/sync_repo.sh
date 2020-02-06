@@ -27,8 +27,8 @@ sync_repo() {
   local exit_code=0
 
   for dir in "$repo_dir"/*; do
-    if helm dependency build "$dir"; then
-      helm package --destination "$sync_dir" "$dir"
+    if helm3 dependency build "$dir"; then
+      helm3 package --destination "$sync_dir" "$dir"
     else
       log_error "Problem building dependencies. Skipping packaging of '$dir'."
       exit_code=1
@@ -40,7 +40,7 @@ sync_repo() {
     rm -rf $sync_dir/$f
   done
 
-  if helm repo index --url "$repo_url" --merge "$index_dir/index.yaml" "$sync_dir"; then
+  if helm3 repo index --url "$repo_url" --merge "$index_dir/index.yaml" "$sync_dir"; then
     # Move updated index.yaml to sync folder so we don't push the old one again
     mv -f "$sync_dir/index.yaml" "$index_dir/index.yaml"
 
