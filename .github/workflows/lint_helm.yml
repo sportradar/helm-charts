@@ -1,4 +1,4 @@
-name: CI
+name: Helm Chart Lint
 
 on: [pull_request]
 
@@ -14,3 +14,4 @@ jobs:
         sudo mv linux-amd64/helm /usr/local/bin/helm
     - name: Linting each chart
       run: for i in $(ls -d charts/*/); do helm lint $i; done 
+  
