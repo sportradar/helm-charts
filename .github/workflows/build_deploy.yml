@@ -12,13 +12,8 @@ jobs:
     env:
       AWS_DEFAULT_REGION: eu-central-1
     steps:
-      - name: Prepare binaries
-        continue-on-error: false
-        run: |
-          pip install -U awscli
-          sudo snap install --classic helm
+      - uses: actions/checkout@v2
       - name: Deploy script
         continue-on-error: false
         run: ./sync_repo.sh
-        shell: bash
 

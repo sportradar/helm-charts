@@ -7,11 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install helm
-      run: |
-        curl -o helm.tar.gz https://get.helm.sh/helm-v3.0.3-linux-amd64.tar.gz
-        tar zxvf helm.tar.gz
-        sudo mv linux-amd64/helm /usr/local/bin/helm
     - name: Linting each chart
       run: for i in $(ls -d charts/*/); do helm lint $i; done 
   
