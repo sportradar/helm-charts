@@ -10,11 +10,6 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     env:
-      bucket: $S3BUCKET
-      repo_dir: charts
-      repo_url: $S3BUCKET_URL
-      sync_dir: ${repo_dir}-sync
-      index_dir: ${repo_dir}-index
       AWS_DEFAULT_REGION: eu-central-1
     steps:
       - name: Prepare binaries
@@ -22,22 +17,7 @@ jobs:
         run: |
           pip install -U awscli
           sudo snap install --classic helm
-      - name: Verify bucket index.yaml
+      - name: Deploy script
         continue-on-error: false
-        run: |
-          if ! aws s3 cp "$bucket/index.yaml" "$index_dir/index.yaml"; then
-            log_error "Exiting because unable to copy index locally. Not safe to proceed."
-            exit 1
-          fi
-      - name: Build Charts
-        continue-on-error: false
-        run: |
-          for dir in "$repo_dir"/*; do
-            if helm dependency build "$dir"; then
-              helm package --destination "$sync_dir" "$dir"
-            else
-              log_error "Problem building dependencies. Skipping packaging of '$dir'."
-              exit_code=1
-            fi
-          done
+        run: ./scripts/sync_repo.sh
 
